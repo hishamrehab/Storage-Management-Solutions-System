@@ -18,6 +18,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { createAccount } from "@/lib/actions/user.action"
+import OTPModel from "./OTPModel"
 
 
 type FormType = "sign-up" | "sign-in";
@@ -68,7 +69,7 @@ setErrorMessage("Failed to create account . Please try again.")
 } finally {
   setIsLoading(false);
 }
-  };
+};
 
  
 
@@ -143,6 +144,9 @@ setErrorMessage("Failed to create account . Please try again.")
 
 
   {/* OTP VERIFICATON */}
+
+
+  {accountId &&  ( <OTPModel email={form.getValues("email") } accountId={accountId} />)}
 </>
 
   )
