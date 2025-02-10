@@ -1,5 +1,5 @@
 "use client";
-import { avatatPlaceholderUrl, navItems } from '@/constants'
+import {  navItems } from '@/constants'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -46,13 +46,13 @@ const Sidebar = ({fullName , avatar , email} : Props) => {
 
       <div className='sidebar-user-info'>
         <Image src={avatar} alt='avatar' width={44} height={44} className='sidebar-user-avatar'  />
-      </div>
+
  
     <div className='hidden lg:block'>
-        <p className='subtitle-2 caoitalize'>{fullName}</p>
+        <p className='subtitle-2 caoitalize text-black text-bold'>{fullName}</p>
         <p className='caption'>{email}</p>
       </div>   
-
+      </div>
     </aside>
   )
 }

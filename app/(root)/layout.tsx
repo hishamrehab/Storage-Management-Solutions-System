@@ -1,9 +1,9 @@
 import React from "react";
 import Sidebar from "@/components/Sidebar";
-import MobileNavigation from "@/components/MobileNavigation";
 import Header from "@/components/Header";
 import { getCurrentUser } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
+import MobileNav from "@/components/MobileNav";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +17,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
       <Sidebar {...currentUser} />
 
       <section className="flex h-full flex-1 flex-col">
-        <MobileNavigation {...currentUser} />
+        <MobileNav {...currentUser} />
         <Header />
         <div className="main-content">{children}</div>
       </section>
