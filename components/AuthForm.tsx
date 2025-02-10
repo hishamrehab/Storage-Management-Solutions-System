@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { createAccount } from "@/lib/actions/user.actions"
+import { createAccount, signInUser } from "@/lib/actions/user.actions"
 import OTPModel from "./OTPModel"
 
 
@@ -31,17 +31,12 @@ const authFormSchema = (formType : FormType) => {
   )
 }
 
-
-
 const AuthForm = ({type} : {type: FormType}) => {
   const [isLoading , setIsLoading ] = useState(false);
   const [errorMessage , setErrorMessage ] = useState("");
   const [accountId , setAccountId ] = useState(null);
   
    const formSchema = authFormSchema(type);
-
-
-
 
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -55,21 +50,22 @@ const AuthForm = ({type} : {type: FormType}) => {
   const onSubmit = async (values: z.infer<typeof formSchema>)  =>{
     setIsLoading(true);
     setErrorMessage("");
+    try {
+      const user =
+        type === "sign-up"
+          ? await createAccount({
+              fullName: values.fullName || "",
+              email: values.email,
+            })
+          : await signInUser({ email: values.email });
 
-try {
-  const user = await createAccount({
-    fullName:values.fullName || '',
-    email:values.email,
-  })
-  setErrorMessage("");
-
- setAccountId(user.accountId);
-} catch {
-setErrorMessage("Failed to create account . Please try again.")
-} finally {
-  setIsLoading(false);
-}
-};
+      setAccountId(user.accountId);
+    } catch {
+      setErrorMessage("Failed to create account. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
  
 
@@ -100,7 +96,7 @@ setErrorMessage("Failed to create account . Please try again.")
         )}
       />) }  
 
-<FormField
+      <FormField
         control={form.control}
         name="email"
         render={({ field }) => (
@@ -136,11 +132,8 @@ setErrorMessage("Failed to create account . Please try again.")
   </p>
   <Link href={type === "sign-in" ? "/sign-up" : "/sign-in"} className="ml-1 font-medium text-brand">{type === "sign-in" ? "Sign Up" : "Sign In"}</Link>
 </div>
-
-
     </form>
   </Form>
-
 
 
   {/* OTP VERIFICATON */}
