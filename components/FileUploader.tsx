@@ -128,4 +128,4 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
   );
 };
 
-export default FileUploader;
+export default FileUploader; 
