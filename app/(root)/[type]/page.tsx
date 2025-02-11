@@ -1,10 +1,13 @@
 import Sort from '@/components/Sort';
+import { getFiles } from '@/lib/actions/file.actions';
 import { SearchParamProps } from '@/types/FileTypes'
 import React from 'react'
 
 const page = async ({ params } :SearchParamProps) => {
     const type = (await params)?.type as string || "";
     
+   const fiels = await getFiles()
+
   return (
     <div className='page-container'>
         <section className='w-full'>
@@ -21,6 +24,12 @@ const page = async ({ params } :SearchParamProps) => {
         </section>
         
         {/* RENDER FILES */}
+
+        {fiels.lenght > 0 ? (
+          <section>
+
+          </section>
+        ): <p>No files to uplaoded</p>}
     </div>
   )
 }
