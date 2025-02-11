@@ -66,7 +66,7 @@ const createQueries = (currentUser : Models.Document) => {
     Query.or(
    [
     Query.equal("owner", [currentUser.$id]),
-    Query.equal("users", [currentUser.email])
+    Query.contains("users", [currentUser.email])
    ]
     )
   ];
