@@ -23,6 +23,8 @@ import { useState } from "react"
 import { Button } from "./ui/button";
 import { renameFile } from "@/lib/actions/file.actions";
 import { usePathname } from "next/navigation";
+import { Models } from "node-appwrite";
+import { FileDetails } from "./ActionModalContent";
   
 const ActionDropdown = ({file } : {file : Models.Document}) => {
     const [isModalOpen , setIsModalOpen] =useState(false);
@@ -31,7 +33,7 @@ const ActionDropdown = ({file } : {file : Models.Document}) => {
      const [name , setName] = useState(file.name);
     const [isLoading , setIsLoading] = useState(false);
   const path = usePathname();
-  
+
 
     const cloaseAllModals = () => {
       setIsModalOpen(false);
@@ -68,12 +70,13 @@ const {value, label} = action;
 
     return (
       <DialogContent className="shad-dialog button">
-     <DialogContent>
-    <DialogHeader>
+      <DialogHeader className="flex flex-col gap-3">
       <DialogTitle className="text-center text-light-100">{label}</DialogTitle>
     {value === "rename" && (
       <input type="text" value={name} onChange={(e) => setName(e.target.value)}/>
     )}
+
+    {value &&"details" && <FileDetails file={file} />} 
     </DialogHeader>
     {["rename" , "delete" , "share" ].includes(value) &&  (
       <DialogFooter className="flex flex-col gap-3 md:flex-row">
@@ -86,7 +89,6 @@ const {value, label} = action;
         </Button>
       </DialogFooter>
     )} 
-    </DialogContent>
       </DialogContent>
 
     )
@@ -110,14 +112,18 @@ const {value, label} = action;
       setIsModalOpen(true);
     }
   }}>
-    {actionItem.value === "download" ?
-    <Link href={constructDownloadUrl(file.bucketFileId)} download={file.name} className="flex items-center gap-2">
+    {actionItem.value === "download" ?(
+       <Link href={constructDownloadUrl(file.bucketFileId)} download={file.name} className="flex items-center gap-2">
+       <Image src={actionItem.icon} alt={actionItem.label} width={30} height={30}/>
+          {actionItem.label} 
+       </Link>
+    )
+    : (
+      <div  className="flex items-center gap-2">
  <Image src={actionItem.icon} alt={actionItem.label} width={30} height={30}/>
     {actionItem.label} 
- </Link> : <div  className="flex items-center gap-2">
- <Image src={actionItem.icon} alt={actionItem.label} width={30} height={30}/>
-    {actionItem.label} 
- </div>} 
+ </div>  
+    )} 
    </DropdownMenuItem>
 
  ))}
