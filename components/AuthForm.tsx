@@ -26,20 +26,20 @@ type FormType = "sign-up" | "sign-in";
 const authFormSchema = (formType : FormType) => {
   return z.object({
      email:z.string().email(),
-     fullName: formType==="sign-up"? z.string().min(2).max(50) : z.string().optional() ,
-  }
-  )
-}
+     fullName: formType==="sign-up"?
+      z.string().min(2).max(50) :
+       z.string().optional() ,
+  });
+};
 
 const AuthForm = ({type} : {type: FormType}) => {
   const [isLoading , setIsLoading ] = useState(false);
   const [errorMessage , setErrorMessage ] = useState("");
   const [accountId , setAccountId ] = useState(null);
   
-   const formSchema = authFormSchema(type);
 
-
-  const form = useForm<z.infer<typeof formSchema>>({
+    const formSchema = authFormSchema(type);
+    const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
@@ -81,7 +81,6 @@ const AuthForm = ({type} : {type: FormType}) => {
         name="fullName"
         render={({ field }) => (
           <FormItem>
-
             <div className="shad-from-item">
             <FormLabel className="shad-form-label">Full Name</FormLabel>
 
@@ -94,7 +93,7 @@ const AuthForm = ({type} : {type: FormType}) => {
             <FormMessage className="shad-form-message"/>
           </FormItem>
         )}
-      />) }  
+      />)}  
 
       <FormField
         control={form.control}
@@ -122,9 +121,9 @@ const AuthForm = ({type} : {type: FormType}) => {
       )}   
       </Button>
 
-{errorMessage && (
-  <p className="error-message">*{errorMessage}</p>
-)}
+      {errorMessage && (
+      <p className="error-message">*{errorMessage}</p>
+     )}
 
 <div className="body-2 flex justify-center">
   <p className="text-light-100">

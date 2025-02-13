@@ -36,7 +36,6 @@ const OTPModel = ({accountId , email} : {
  setIsLoading(true);
 
  try {
-// Calling Api to verify OTP
  
 const sessionId = await verifySecret({ accountId , password});
 
@@ -53,10 +52,7 @@ if(sessionId) router.push(
 
 
   const  handleResedOtp = async() => {
-    // Call API to resend OTP
- 
     await sendEmailOTP({email});  
-
   };
 
 
